@@ -11,12 +11,18 @@
 		}
 
 		function defineScope () {
-			$scope.videos = [{
+			$scope.videosAsObj = [{
 				id: "49222355",
 				service: "vimeo",
 			}, {
-				id: "TbliHS_5GhM",
+				id: "iNJdPyoqt8U",
 				service: "youtube",
+			}];
+
+			$scope.videosAsUrl = [{
+				url: "https://youtube.com/watch?v=iNJdPyoqt8U&rel=0",
+			}, {
+				url: "https://vimeo.com/49222355",
 			}];
 		}
 

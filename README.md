@@ -43,7 +43,7 @@ $scope.url = "https://www.youtube.com/watch?v=iNJdPyoqt8U";
 
 ###### HTML
 ```html
-<div zen-video-embed url="url" style="width: 600px; height: 400px;"></div>
+<div zen-video-embed url="{{url}}" style="width: 600px; height: 400px;"></div>
 ```
 
 ## Contributing

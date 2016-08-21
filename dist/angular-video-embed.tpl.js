@@ -11,37 +11,69 @@ angular.module('zen.video-embed.templates', []).run(['$templateCache', function(
 			restrict: "EA",
 			templateUrl: "index.html",
 			scope : {
-				video:"=",
+				url: "@?",
+				video: "=?",
 			},
 			link: function ($scope) {
 
 				var validServices = ["youtube", "vimeo"];
 				
 				function init () { 
-					checkServiceIsValid($scope.video);
-					buildUrlForVideo($scope.video);
+					checkScopeIsValid();
+					buildVideoFromUrl();
+					checkServiceIsValid();
+					buildUrlForVideo();
 				}
 
-				function buildUrlForVideo (video) {
+				function buildVideoFromUrl () {
+					if (!$scope.video && !!$scope.url) {
+						var results;
+						$scope.video = {};
+
+						//test for youtube
+						results = $scope.url.match(/https?:\/\/.*?(youtube|youtu\.be).*v=([^\?&]*)/);
+						if (results) {
+							$scope.video.service = (["youtube", "youtu.be"].indexOf(results[1]) >= 0 ? "youtube" : undefined);
+							$scope.video.id = results[2];
+						}
+
+						//test for vimeo
+						results = $scope.url.match(/https?:\/\/.*?(vimeo)\.com\/([^?&]*)/);
+						if (results) {
+							$scope.video.service = (["vimeo"].indexOf(results[1]) >= 0 ? "vimeo" : undefined);
+							$scope.video.id = results[2];
+						}
+					}
+				}
+
+				function buildUrlForVideo () {
 					var url = "";
-					switch (video.service) {
+					switch ($scope.video.service) {
 					case "youtube":
-						url = "https://www.youtube.com/embed/" + video.id;
+						url = "https://www.youtube.com/embed/" + $scope.video.id;
 						break;
 					case "vimeo":
-						url = "https://player.vimeo.com/video/" + video.id + "?color=d4bd28&portrait=0&badge=0";
+						url = "https://player.vimeo.com/video/" + $scope.video.id + "?color=d4bd28&portrait=0&badge=0";
 						break;
 					default:
-						throwUnknownService(video.service);
+						throwUnknownService($scope.video.service);
 						break;
 					}
 					$scope.video.url = $sce.trustAsResourceUrl(url);
 				}
 
-				function checkServiceIsValid (video) {
-					var valid = validServices.indexOf(video.service);
+				function checkScopeIsValid () {
+					if (!$scope.url && !$scope.video) {
+						throw "Neither video or url is defined";
+					}
+
+					return true;
+				}
+
+				function checkServiceIsValid () {
+					var valid = validServices.indexOf($scope.video.service);
 					if (valid < 0) {
-						throwUnknownService(video.service);
+						throwUnknownService($scope.video.service);
 					}
 					return true;
 				}

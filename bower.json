@@ -1,26 +1,26 @@
 {
   "name": "angular-video-embed",
+  "version": "1.0.0",
   "homepage": "https://github.com/zenapply/angular-video-embed",
   "authors": [
     "Tyler Arbon <tylercd100@gmail.com>"
   ],
-  "description": "Can embed videos from different services easily. Vimeo, Youtube, Viddler, ETC...",
-  "main": "index.js",
+  "description": "Can embed videos from different services easily. Vimeo, Youtube, ETC...",
+  "main": "dist/angular-video-embed.tpl.min.js",
   "keywords": [
     "vimeo",
     "youtube",
-    "viddler",
     "embed",
     "videos"
   ],
   "license": "MIT",
-  "private": true,
+  "private": false,
   "ignore": [
-    "**/.*",
     "node_modules",
     "bower_components",
     "test",
-    "tests"
+    "tests",
+    "src"
   ],
   "dependencies": {
     "angular": "^1.5.8"
