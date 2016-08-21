@@ -1,11 +1,6 @@
-# angular-video-embed
+# Angular Video Embed
 [![Latest Version](https://img.shields.io/github/release/zenapply/angular-video-embed.svg?style=flat-square)](https://github.com/zenapply/angular-video-embed/releases)
 [![Software License](https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square)](LICENSE.md)
-[![Build Status](https://travis-ci.org/zenapply/angular-video-embed.svg?branch=master)](https://travis-ci.org/zenapply/angular-video-embed)
-[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/zenapply/angular-video-embed/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/zenapply/angular-video-embed/?branch=master)
-[![Code Coverage](https://scrutinizer-ci.com/g/zenapply/angular-video-embed/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/zenapply/angular-video-embed/?branch=master)
-[![Dependency Status](https://www.versioneye.com/user/projects/56f3252c35630e0029db0187/badge.svg?style=flat)](https://www.versioneye.com/user/projects/56f3252c35630e0029db0187)
-[![Total Downloads](https://img.shields.io/packagist/dt/zenapply/angular-video-embed.svg?style=flat-square)](https://packagist.org/packages/zenapply/angular-video-embed)
 
 A simple directive for angular 1.x that makes embedding videos from various services easier.
 
