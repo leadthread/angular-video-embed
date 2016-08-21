@@ -2,7 +2,7 @@
   "name": "angular-video-embed",
   "version": "1.0.0",
   "description": "Can embed videos from different services easily. Vimeo, Youtube, ETC...",
-  "main": "dist/angular-video-embed.tpl.min.js",
+  "main": "dist/angular-video-embed.tpl.js",
   "dependencies": {
     "angular": "^1.5.8"
   },

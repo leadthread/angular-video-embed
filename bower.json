@@ -6,7 +6,7 @@
     "Tyler Arbon <tylercd100@gmail.com>"
   ],
   "description": "Can embed videos from different services easily. Vimeo, Youtube, ETC...",
-  "main": "dist/angular-video-embed.tpl.min.js",
+  "main": "dist/angular-video-embed.tpl.js",
   "keywords": [
     "vimeo",
     "youtube",
