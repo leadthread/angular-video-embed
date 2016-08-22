@@ -10,10 +10,10 @@ angular.module('zen.video-embed.templates', []).run(['$templateCache', function(
 		var validServices = ["youtube", "vimeo"];
 		
 		function testYoutube (video, url) {
-			var results = url.match(/https?:\/\/.*?(youtube|youtu\.be).*v=([^\?&]*)/);
+			var results = url.match(/(?:youtu\.be\/|youtube\.com(?:\/embed\/|\/v\/|\/watch\?v=|\/user\/\S+|\/ytscreeningroom\?v=|\/sandalsResorts#\w\/\w\/.*\/))([^\/&]{10,12})/);
 			if (results) {
-				video.service = (["youtube", "youtu.be"].indexOf(results[1]) >= 0 ? "youtube" : undefined);
-				video.id = results[2];
+				video.service = "youtube";
+				video.id = results[1];
 			}
 			return video;
 		}

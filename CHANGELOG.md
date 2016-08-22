@@ -2,6 +2,9 @@
 
 All notable changes to `angular-video-embed` will be documented in this file.
 
+### 1.1.2
+- Fixed Regex to match all the different styles of Youtube URLs
+
 ### 1.1.1
 - Properly updates the video when the url changes
 
