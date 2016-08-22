@@ -9,6 +9,10 @@
 	<script type="text/javascript" src="test.js"></script>
 </head>
 <body ng-controller="testController">
+	<div> 
+		<input type="text" ng-model="test_url">
+		<div zen-video-embed url="{{test_url}}" style="width: 400px; height: 300px;"></div>
+	</div>
 	<div ng-repeat="video in videosAsObj" ng-if="!!video.id && !!video.service"> 
 		<h1>Object method {{$index+1}}</h1>
 		<div zen-video-embed video="video" style="width: 400px; height: 300px;"></div>

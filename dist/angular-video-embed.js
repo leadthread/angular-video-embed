@@ -67,28 +67,29 @@
 			restrict: "EA",
 			templateUrl: "index.html",
 			scope : {
-				url: "@?",
+				url: "@",
 				video: "=?",
 			},
 			link: function ($scope) {
 
-				
 				function init () { 
-					checkScopeIsValid();
-					buildVideoFromUrl();
-					buildUrlForVideo();
 					defineListeners();
 				}
 
+				function onChange () {
+					checkScopeIsValid();
+					buildVideoFromUrl();
+					buildUrlForVideo();
+				}
+
 				function defineListeners () {
-					$scope.$watch("url", function () {
-						buildVideoFromUrl();
-						buildUrlForVideo();
-					});
+					$scope.$watch(function () {
+						return $scope.url;
+					}, onChange);
 				}
 
 				function buildVideoFromUrl () {
-					if (!$scope.video && !!$scope.url) {
+					if ($scope.url) {
 						$scope.video = zenVideoEmbed.getVideoFromUrl($scope.url);
 					}
 				}
