@@ -5,7 +5,64 @@
 		"zen.video-embed.templates"
 	]);
 
-	app.directive("zenVideoEmbed", ["$sce", function ($sce) { 
+	app.factory("zenVideoEmbed", [function () {
+		var validServices = ["youtube", "vimeo"];
+		
+		function testYoutube (video, url) {
+			var results = url.match(/https?:\/\/.*?(youtube|youtu\.be).*v=([^\?&]*)/);
+			if (results) {
+				video.service = (["youtube", "youtu.be"].indexOf(results[1]) >= 0 ? "youtube" : undefined);
+				video.id = results[2];
+			}
+			return video;
+		}
+
+		function testVimeo (video, url) {
+			var results = url.match(/https?:\/\/.*?(vimeo)\.com\/([^?&]*)/);
+			if (results) {
+				video.service = (["vimeo"].indexOf(results[1]) >= 0 ? "vimeo" : undefined);
+				video.id = results[2];
+			}
+			return video;
+		}
+		
+		function throwUnknownService (service) {
+			throw "Unknown Video Service: \""+service+"\"";
+		}
+
+		return {
+			getSupportedServices: function () {
+				return validServices;
+			},
+			getVideoFromUrl: function (url) {
+				return testYoutube(testVimeo({}, url));
+			},
+			getUrlFromVideo: function (video) {
+				var url = "";
+				switch (video.service) {
+				case "youtube":
+					url = "https://www.youtube.com/embed/" + video.id;
+					break;
+				case "vimeo":
+					url = "https://player.vimeo.com/video/" + video.id + "?color=d4bd28&portrait=0&badge=0";
+					break;
+				default:
+					throwUnknownService(video.service);
+					break;
+				}
+				return url;
+			},
+			checkServiceIsValid: function (video) {
+				var valid = validServices.indexOf(video.service);
+				if (valid < 0) {
+					throwUnknownService(video.service);
+				}
+				return true;
+			}
+		};
+	}]);
+
+	app.directive("zenVideoEmbed", ["$sce", "zenVideoEmbed", function ($sce, zenVideoEmbed) { 
 		return {
 			restrict: "EA",
 			templateUrl: "index.html",
@@ -15,50 +72,29 @@
 			},
 			link: function ($scope) {
 
-				var validServices = ["youtube", "vimeo"];
 				
 				function init () { 
 					checkScopeIsValid();
 					buildVideoFromUrl();
-					checkServiceIsValid();
 					buildUrlForVideo();
+					defineListeners();
+				}
+
+				function defineListeners () {
+					$scope.$watch("url", function () {
+						buildVideoFromUrl();
+						buildUrlForVideo();
+					});
 				}
 
 				function buildVideoFromUrl () {
 					if (!$scope.video && !!$scope.url) {
-						var results;
-						$scope.video = {};
-
-						//test for youtube
-						results = $scope.url.match(/https?:\/\/.*?(youtube|youtu\.be).*v=([^\?&]*)/);
-						if (results) {
-							$scope.video.service = (["youtube", "youtu.be"].indexOf(results[1]) >= 0 ? "youtube" : undefined);
-							$scope.video.id = results[2];
-						}
-
-						//test for vimeo
-						results = $scope.url.match(/https?:\/\/.*?(vimeo)\.com\/([^?&]*)/);
-						if (results) {
-							$scope.video.service = (["vimeo"].indexOf(results[1]) >= 0 ? "vimeo" : undefined);
-							$scope.video.id = results[2];
-						}
+						$scope.video = zenVideoEmbed.getVideoFromUrl($scope.url);
 					}
 				}
 
 				function buildUrlForVideo () {
-					var url = "";
-					switch ($scope.video.service) {
-					case "youtube":
-						url = "https://www.youtube.com/embed/" + $scope.video.id;
-						break;
-					case "vimeo":
-						url = "https://player.vimeo.com/video/" + $scope.video.id + "?color=d4bd28&portrait=0&badge=0";
-						break;
-					default:
-						throwUnknownService($scope.video.service);
-						break;
-					}
-					$scope.video.url = $sce.trustAsResourceUrl(url);
+					$scope.video.url = $sce.trustAsResourceUrl(zenVideoEmbed.getUrlFromVideo($scope.video));
 				}
 
 				function checkScopeIsValid () {
@@ -67,19 +103,6 @@
 					}
 
 					return true;
-				}
-
-				function checkServiceIsValid () {
-					var valid = validServices.indexOf($scope.video.service);
-					if (valid < 0) {
-						throwUnknownService($scope.video.service);
-					}
-					return true;
-				}
-
-				//Errors
-				function throwUnknownService(service) {
-					throw "Unknown Video Service: \""+service+"\"";
 				}
 
 				init();

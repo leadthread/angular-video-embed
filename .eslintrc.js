@@ -26,12 +26,12 @@ module.exports = {
             "warn",
             "1tbs"
         ],
-        "object-curly-newline": [
-            "error", {
-            "ObjectExpression": "always",
-                "ObjectPattern": { "multiline": true }
-            }
-        ],
+        // "object-curly-newline": [
+        //     "error", {
+        //     "ObjectExpression": "always",
+        //         "ObjectPattern": { "multiline": true }
+        //     }
+        // ],
         "comma-spacing": [
             "warn", 
             { 
