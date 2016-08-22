@@ -41,7 +41,7 @@
 				var url = "";
 				switch (video.service) {
 				case "youtube":
-					url = "https://www.youtube.com/embed/" + video.id;
+					url = "https://www.youtube.com/embed/" + video.id + "?rel=0";
 					break;
 				case "vimeo":
 					url = "https://player.vimeo.com/video/" + video.id + "?color=d4bd28&portrait=0&badge=0";
