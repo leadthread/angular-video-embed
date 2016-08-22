@@ -35,7 +35,7 @@
 				return validServices;
 			},
 			getVideoFromUrl: function (url) {
-				return testYoutube(testVimeo({}, url));
+				return testYoutube(testVimeo({}, url), url);
 			},
 			getUrlFromVideo: function (video) {
 				var url = "";

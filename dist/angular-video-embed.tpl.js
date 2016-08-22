@@ -36,7 +36,7 @@ angular.module('zen.video-embed.templates', []).run(['$templateCache', function(
 				return validServices;
 			},
 			getVideoFromUrl: function (url) {
-				return testYoutube(testVimeo({}, url));
+				return testYoutube(testVimeo({}, url), url);
 			},
 			getUrlFromVideo: function (video) {
 				var url = "";
