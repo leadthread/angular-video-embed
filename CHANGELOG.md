@@ -2,6 +2,9 @@
 
 All notable changes to `angular-video-embed` will be documented in this file.
 
+### 1.1.4
+- Check for undefined strings before running regex
+
 ### 1.1.3
 - Added rel=0 to youtube video embed link
 

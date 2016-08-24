@@ -35,6 +35,9 @@
 				return validServices;
 			},
 			getVideoFromUrl: function (url) {
+				if (typeof url === "undefined") {
+					return undefined;
+				}
 				return testYoutube(testVimeo({}, url), url);
 			},
 			getUrlFromVideo: function (video) {
