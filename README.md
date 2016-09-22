@@ -5,8 +5,9 @@
 A simple directive for angular 1.x that makes embedding videos from various services easier.
 
 Currently supported:
-- [Youtube](http://youtube.com/)
+- [Viddler](http://viddler.com/)
 - [Vimeo](http://vimeo.com/)
+- [Youtube](http://youtube.com/)
 
 ## Installation
 

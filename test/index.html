@@ -15,10 +15,12 @@
 	</div>
 	<div ng-repeat="video in videosAsObj" ng-if="!!video.id && !!video.service"> 
 		<h1>Object method {{$index+1}}</h1>
+		<pre>{{video|json}}</pre>
 		<div zen-video-embed video="video" style="width: 400px; height: 300px;"></div>
 	</div>
 	<div ng-repeat="video in videosAsUrl"> 
 		<h1>URL method {{$index+1}}</h1>
+		<pre>{{video|json}}</pre>
 		<div zen-video-embed url="{{video.url}}" style="width: 400px; height: 300px;"></div>
 	</div>
 

@@ -6,7 +6,7 @@
 	]);
 
 	app.factory("zenVideoEmbed", [function () {
-		var validServices = ["youtube", "vimeo"];
+		var validServices = ["youtube", "vimeo", "viddler"];
 		
 		function testYoutube (video, url) {
 			var results = url.match(/(?:youtu\.be\/|youtube\.com(?:\/embed\/|\/v\/|\/watch\?v=|\/user\/\S+|\/ytscreeningroom\?v=|\/sandalsResorts#\w\/\w\/.*\/))([^\/&]{10,12})/);
@@ -25,6 +25,15 @@
 			}
 			return video;
 		}
+
+		function testViddler (video, url) {
+			var results = url.match(/https?:\/\/.*?(viddler)\.com\/(embed|v)\/([^?&\/]*)/);
+			if (results) {
+				video.service = (["viddler"].indexOf(results[1]) >= 0 ? "viddler" : undefined);
+				video.id = results[3];
+			}
+			return video;
+		}
 		
 		function throwUnknownService (service) {
 			throw "Unknown Video Service: \""+service+"\"";
@@ -38,7 +47,7 @@
 				if (typeof url === "undefined") {
 					return undefined;
 				}
-				return testYoutube(testVimeo({}, url), url);
+				return testYoutube(testVimeo(testViddler({}, url), url), url);
 			},
 			getUrlFromVideo: function (video) {
 				var url = "";
@@ -48,6 +57,9 @@
 					break;
 				case "vimeo":
 					url = "https://player.vimeo.com/video/" + video.id + "?color=d4bd28&portrait=0&badge=0";
+					break;
+				case "viddler":
+					url = "https://www.viddler.com/embed/" + video.id + "/?f=1&player=arpeggio&secret=11469889&hideablecontrolbar=1&make_responsive=0&hideCommentEmbedIfNoComments=1&noControls=true";
 					break;
 				default:
 					throwUnknownService(video.service);
