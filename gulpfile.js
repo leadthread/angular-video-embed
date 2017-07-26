@@ -4,10 +4,12 @@ var concat	      = require("gulp-concat");
 var rename	      = require("gulp-rename");
 var uglify	      = require("gulp-uglify");
 var templateCache = require("gulp-angular-templatecache");
+var ts 		 	  = require("gulp-typescript");
+var merge 		  = require("merge2");
 
 // File Locations
-var jsSrc = [
-	"src/**/*.js"
+var tsSrc = [
+	"src/**/*.ts"
 ];
 
 var htmlSrc = [
@@ -17,11 +19,15 @@ var htmlSrc = [
 // Destinations
 var jsDest   = "dist";
 
+var tsProjectScripts = ts.createProject("tsconfig.json", {
+	declaration:false
+});
+
 // gulp starts here
 gulp.task("default", ["compile", "watch"]);
 
 gulp.task("watch", function () {
-	gulp.watch(jsSrc,   ["scripts", "combine", "combine-min"]);
+	gulp.watch(tsSrc,   ["scripts", "combine", "combine-min"]);
 	gulp.watch(htmlSrc, ["html", "combine", "combine-min"]);
 });
 
@@ -29,9 +35,12 @@ gulp.task("watch", function () {
 gulp.task("compile", ["html", "scripts", "combine", "combine-min"]);
 gulp.task("build",   ["html", "scripts", "combine", "combine-min"]);
 
-// handles js files
 gulp.task("scripts", function () {
-	return gulp.src(jsSrc)
+	var streams = [
+		gulp.src(tsSrc).pipe(tsProjectScripts()).js
+	];
+
+	return merge(streams)
 		.pipe(concat("angular-video-embed.js"))
 		.pipe(gulp.dest(jsDest))
 		.pipe(uglify())
