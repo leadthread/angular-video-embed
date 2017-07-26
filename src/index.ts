@@ -5,8 +5,9 @@ import { Video } from "./videos/Video";
 import { VideoFactory } from "./factories/VideoFactory";
 import { YouTubeVideo } from "./videos/YouTubeVideo";
 
+const templateUrl = require("./index.html");
+
 var app = angular.module("zen.video-embed", [
-	"zen.video-embed.templates"
 ]);
 
 class ZenVideoEmbedService {
@@ -33,7 +34,7 @@ app.directive("zenVideoEmbed", ["$sce", "ZenVideoEmbedService", function ($sce: 
 
 	return {
 		restrict: "EA",
-		templateUrl: "index.html",
+		templateUrl: templateUrl,
 		scope : {
 			url: "@",
 			video: "=?",
@@ -42,11 +43,22 @@ app.directive("zenVideoEmbed", ["$sce", "ZenVideoEmbedService", function ($sce: 
 
 			function init () { 
 				$scope.getTrustedVideoUrl = getTrustedVideoUrl;
+
+				if (!$scope.url && $scope.video instanceof Object) {
+					$scope.video = VideoFactory.create($scope.video.id, $scope.video.service);
+				} else if ($scope.url) {
+					$scope.video = buildVideoFromUrl($scope.url);
+				}
+
+				console.log($scope.video);
+
 				defineListeners();
 			}
 
-			function onChange () {
-				$scope.video = buildVideoFromUrl();
+			function onChange (n: string, o: string) {
+				if(n!==o) {
+					$scope.video = buildVideoFromUrl(n);
+				}
 			}
 
 			function defineListeners () {
@@ -55,16 +67,16 @@ app.directive("zenVideoEmbed", ["$sce", "ZenVideoEmbedService", function ($sce: 
 				}, onChange);
 			}
 
-			function buildVideoFromUrl () {
-				if ($scope.url) {
-					return ZenVideoEmbedService.getVideoFromUrl($scope.url);
+			function buildVideoFromUrl (url: string): Video {
+				if (url) {
+					return ZenVideoEmbedService.getVideoFromUrl(url);
 				} else {
 					return null;
 				}
 			}
 
-			function getTrustedVideoUrl (video: Video) {
-				return $sce.trustAsResourceUrl(video.getVideoUrl());
+			function getTrustedVideoUrl (video: Video): string {
+				return video ? $sce.trustAsResourceUrl(video.getVideoUrl()) : null;
 			}
 
 			init();

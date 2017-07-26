@@ -91,7 +91,9 @@ exports.Video = Video;
 Object.defineProperty(exports, "__esModule", { value: true });
 var VideoFactory_1 = __webpack_require__(2);
 var templateUrl = __webpack_require__(6);
-var app = angular.module("zen.video-embed", []);
+var app = angular.module("zen.video-embed", [
+    "zen.video-embed.templates"
+]);
 var ZenVideoEmbedService = (function () {
     function ZenVideoEmbedService() {
     }
@@ -120,35 +122,26 @@ app.directive("zenVideoEmbed", ["$sce", "ZenVideoEmbedService", function ($sce, 
             link: function ($scope) {
                 function init() {
                     $scope.getTrustedVideoUrl = getTrustedVideoUrl;
-                    if (!$scope.url && $scope.video instanceof Object) {
-                        $scope.video = VideoFactory_1.VideoFactory.create($scope.video.id, $scope.video.service);
-                    }
-                    else if ($scope.url) {
-                        $scope.video = buildVideoFromUrl($scope.url);
-                    }
-                    console.log($scope.video);
                     defineListeners();
                 }
-                function onChange(n, o) {
-                    if (n !== o) {
-                        $scope.video = buildVideoFromUrl(n);
-                    }
+                function onChange() {
+                    $scope.video = buildVideoFromUrl();
                 }
                 function defineListeners() {
                     $scope.$watch(function () {
                         return $scope.url;
                     }, onChange);
                 }
-                function buildVideoFromUrl(url) {
-                    if (url) {
-                        return ZenVideoEmbedService.getVideoFromUrl(url);
+                function buildVideoFromUrl() {
+                    if ($scope.url) {
+                        return ZenVideoEmbedService.getVideoFromUrl($scope.url);
                     }
                     else {
                         return null;
                     }
                 }
                 function getTrustedVideoUrl(video) {
-                    return video ? $sce.trustAsResourceUrl(video.getVideoUrl()) : null;
+                    return $sce.trustAsResourceUrl(video.getVideoUrl());
                 }
                 init();
             }
@@ -169,18 +162,6 @@ var YouTubeVideo_1 = __webpack_require__(5);
 var VideoFactory = (function () {
     function VideoFactory() {
     }
-    VideoFactory.create = function (id, service) {
-        switch (service) {
-            case "youtube":
-                return new YouTubeVideo_1.YouTubeVideo(id);
-            case "vimeo":
-                return new VimeoVideo_1.VimeoVideo(id);
-            case "viddler":
-                return new ViddlerVideo_1.ViddlerVideo(id);
-            default:
-                return null;
-        }
-    };
     VideoFactory.createFromUrl = function (url) {
         var video;
         video = YouTubeVideo_1.YouTubeVideo.createFromUrl(url);
@@ -323,7 +304,7 @@ exports.YouTubeVideo = YouTubeVideo;
 /***/ (function(module, exports) {
 
 var path = 'C:/Users/Tyler/code/leadthread/angular-video-embed/src/index.html';
-var html = "<div ng-switch=\"video.service\" style=\"height: 100%; width: 100%;\">\r\n\t<div ng-switch-when=\"youtube\" style=\"height: 100%; width: 100%;\">\r\n\t\t<iframe width=\"100%\" height=\"100%\" ng-src=\"{{getTrustedVideoUrl(video)}}\" frameborder=\"0\" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>\r\n\t</div>\r\n\t<div ng-switch-when=\"vimeo\" style=\"height: 100%; width: 100%;\">\r\n\t\t<iframe width=\"100%\" height=\"100%\" ng-src=\"{{getTrustedVideoUrl(video)}}\" frameborder=\"0\" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>\r\n\t</div>\r\n\t<div ng-switch-when=\"viddler\" style=\"height: 100%; width: 100%;\">\r\n\t\t<iframe width=\"100%\" height=\"100%\" ng-src=\"{{getTrustedVideoUrl(video)}}\" frameborder=\"0\" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>\r\n\t</div>\r\n\t<div ng-switch-default>\r\n\t\tInvalid Video\r\n\t</div>\r\n</div>";
+var html = "<div ng-switch=\"video.service\" style=\"height: 100%; width: 100%;\">\r\n\t<div ng-switch-when=\"youtube\" style=\"height: 100%; width: 100%;\">\r\n\t\t<iframe width=\"100%\" height=\"100%\" ng-src=\"{{video.getTrustedUrl()}}\" frameborder=\"0\" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>\r\n\t</div>\r\n\t<div ng-switch-when=\"vimeo\" style=\"height: 100%; width: 100%;\">\r\n\t\t<iframe width=\"100%\" height=\"100%\" ng-src=\"{{video.getTrustedUrl()}}\" frameborder=\"0\" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>\r\n\t</div>\r\n\t<div ng-switch-when=\"viddler\" style=\"height: 100%; width: 100%;\">\r\n\t\t<iframe width=\"100%\" height=\"100%\" ng-src=\"{{video.getTrustedUrl()}}\" frameborder=\"0\" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>\r\n\t</div>\r\n\t<div ng-switch-default>\r\n\t\tInvalid Video\r\n\t</div>\r\n</div>";
 window.angular.module('ng').run(['$templateCache', function(c) { c.put(path, html) }]);
 module.exports = path;
 

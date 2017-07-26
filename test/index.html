@@ -4,7 +4,6 @@
 	<title>Test</title>
 	<script type="text/javascript" src="../bower_components/angular/angular.js"></script>
 	<script type="text/javascript" src="../bower_components/lodash/dist/lodash.js"></script>
-	<script type="text/javascript" src="../dist/angular-video-embed-templates.js"></script>
 	<script type="text/javascript" src="../dist/angular-video-embed.js"></script>
 	<script type="text/javascript" src="test.js"></script>
 </head>
@@ -13,7 +12,7 @@
 		<input type="text" ng-model="test_url">
 		<div zen-video-embed url="{{test_url}}" style="width: 400px; height: 300px;"></div>
 	</div>
-	<div ng-repeat="video in videosAsObj" ng-if="!!video.id && !!video.service"> 
+	<div ng-repeat="video in videosAsObj"> 
 		<h1>Object method {{$index+1}}</h1>
 		<pre>{{video|json}}</pre>
 		<div zen-video-embed video="video" style="width: 400px; height: 300px;"></div>
