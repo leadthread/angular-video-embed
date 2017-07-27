@@ -2,6 +2,10 @@
 <html ng-app="test">
 <head>
 	<title>Test</title>
+	<script src="http://code.jquery.com/jquery-3.2.1.min.js"></script>
+	<script src="https://static.cdn-ec.viddler.com/js/arpeggio/v3/build/main-built.js"></script>
+	<script src="https://www.youtube.com/iframe_api"></script>
+	<script src="https://player.vimeo.com/api/player.js"></script>
 	<script type="text/javascript" src="../bower_components/angular/angular.js"></script>
 	<script type="text/javascript" src="../bower_components/lodash/dist/lodash.js"></script>
 	<script type="text/javascript" src="../dist/angular-video-embed.js"></script>
@@ -15,13 +19,12 @@
 	<div ng-repeat="video in videosAsObj"> 
 		<h1>Object method {{$index+1}}</h1>
 		<pre>{{video|json}}</pre>
-		<div zen-video-embed video="video" style="width: 400px; height: 300px;"></div>
+		<div zen-video-embed video="video" on-played="onPlayed" style="width: 400px; height: 300px;"></div>
 	</div>
 	<div ng-repeat="video in videosAsUrl"> 
 		<h1>URL method {{$index+1}}</h1>
 		<pre>{{video|json}}</pre>
-		<div zen-video-embed url="{{video.url}}" style="width: 400px; height: 300px;"></div>
+		<div zen-video-embed url="{{video.url}}" on-played="onPlayed" style="width: 400px; height: 300px;"></div>
 	</div>
-
 </body>
 </html>

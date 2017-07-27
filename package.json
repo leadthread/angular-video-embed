@@ -4,7 +4,9 @@
   "description": "Can embed videos from different services easily. Vimeo, Youtube, ETC...",
   "main": "dist/angular-video-embed.tpl.js",
   "dependencies": {
-    "angular": "^1.5.8"
+    "@types/lodash": "^4.14.71",
+    "angular": "^1.5.8",
+    "lodash": "^4.17.4"
   },
   "devDependencies": {
     "@types/angular": "^1.6.27",
@@ -20,7 +22,7 @@
   },
   "scripts": {
     "prepublish": "typings install",
-    "watch": "webpack --watch"
+    "watch": "webpack --watch --colors"
   },
   "repository": {
     "type": "git",

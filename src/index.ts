@@ -1,9 +1,16 @@
 
 declare var angular: angular.IAngularStatic;
 
-import { Video } from "./videos/Video";
-import { VideoFactory } from "./factories/VideoFactory";
-import { YouTubeVideo } from "./videos/YouTubeVideo";
+import { VideoFactory }   from "./factories/VideoFactory";
+import { Video } 		  from "./videos/Video";
+import { YouTubeVideo }   from "./videos/YouTubeVideo";
+import { ViddlerVideo }   from "./videos/ViddlerVideo";
+import { VimeoVideo }     from "./videos/VimeoVideo";
+import { Player } 		  from "./players/Player";
+import { IVideoCallback } from "./players/Player";
+import { YouTubePlayer }  from "./players/YouTubePlayer";
+import { ViddlerPlayer }  from "./players/ViddlerPlayer";
+import { VimeoPlayer }    from "./players/VimeoPlayer";
 
 const templateUrl = require("./index.html");
 
@@ -24,12 +31,17 @@ class ZenVideoEmbedService {
 
 app.service("ZenVideoEmbedService", ZenVideoEmbedService);
 
-app.directive("zenVideoEmbed", ["$sce", "ZenVideoEmbedService", function ($sce: ng.ISCEService, ZenVideoEmbedService: ZenVideoEmbedService) { 
+app.directive("zenVideoEmbed", ["$sce", "ZenVideoEmbedService", "$q", "$timeout", "$rootScope", function ($sce: ng.ISCEService, ZenVideoEmbedService: ZenVideoEmbedService, $q: ng.IQService, $timeout: ng.ITimeoutService, $rootScope: ng.IRootScopeService) { 
 	interface IZenVideoEmbedScope {
 		url: string;
 		video: Video;
 		$watch: Function;
 		getTrustedVideoUrl: (video: Video) => any;
+		onReady: () => IVideoCallback;
+		onPaused: () => IVideoCallback;
+		onEnded: () => IVideoCallback;
+		onBuffering: () => IVideoCallback;
+		onPlayed: () => IVideoCallback;
 	}
 
 	return {
@@ -38,8 +50,13 @@ app.directive("zenVideoEmbed", ["$sce", "ZenVideoEmbedService", function ($sce: 
 		scope : {
 			url: "@",
 			video: "=?",
+			onReady: "&",
+			onPaused: "&",
+			onEnded: "&",
+			onBuffering: "&",
+			onPlayed: "&",
 		},
-		link: function ($scope: IZenVideoEmbedScope) {
+		link: function ($scope: IZenVideoEmbedScope, $el: JQuery) {
 
 			function init () { 
 				$scope.getTrustedVideoUrl = getTrustedVideoUrl;
@@ -49,10 +66,8 @@ app.directive("zenVideoEmbed", ["$sce", "ZenVideoEmbedService", function ($sce: 
 				} else if ($scope.url) {
 					$scope.video = buildVideoFromUrl($scope.url);
 				}
-
-				console.log($scope.video);
-
 				defineListeners();
+				$timeout(() => bindPlayer($scope.video));
 			}
 
 			function onChange (n: string, o: string) {
@@ -73,6 +88,37 @@ app.directive("zenVideoEmbed", ["$sce", "ZenVideoEmbedService", function ($sce: 
 				} else {
 					return null;
 				}
+			}
+
+			function createPlayer (video: Video): Player|null {
+				if(video) {
+					switch (video.service) {
+						case "youtube":
+							return new YouTubePlayer(video);
+						case "vimeo":
+							return new VimeoPlayer(video);
+						case "viddler":
+							return new ViddlerPlayer(video);
+					}
+				}
+				return null;
+			}
+
+			function bindPlayer (video: Video) {
+				if(video) {
+					let player = createPlayer(video);
+
+					return player.bind($q).then(function (player) { 
+						player.onReady($scope.onReady());
+						player.onEnded($scope.onEnded());
+						player.onPlayed($scope.onPlayed());
+						player.onPaused($scope.onPaused());
+						player.onBuffering($scope.onBuffering());
+					}, console.error);
+				} else {
+					return $q.reject("No Video")
+				}
+
 			}
 
 			function getTrustedVideoUrl (video: Video): string {

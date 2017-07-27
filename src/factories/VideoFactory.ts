@@ -2,7 +2,7 @@
 * @Author: Tyler Arbon
 * @Date:   2017-07-26 11:35:45
 * @Last Modified by:   Tyler Arbon
-* @Last Modified time: 2017-07-26 14:24:44
+* @Last Modified time: 2017-07-27 11:13:51
 */
 
 'use strict';
@@ -25,7 +25,7 @@ export class VideoFactory {
 				return null;
 		}
 	}
-	static createFromUrl(url: string): Video {
+	static createFromUrl(url: string): Video|null {
 		let video: Video;
 
 		video = YouTubeVideo.createFromUrl(url);
@@ -42,5 +42,7 @@ export class VideoFactory {
 		if(video) {
 			return video
 		}
+
+		return null;
 	}
 }

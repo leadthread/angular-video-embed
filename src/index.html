@@ -1,14 +1,9 @@
-<div ng-switch="video.service" style="height: 100%; width: 100%;">
-	<div ng-switch-when="youtube" style="height: 100%; width: 100%;">
-		<iframe width="100%" height="100%" ng-src="{{getTrustedVideoUrl(video)}}" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
-	</div>
-	<div ng-switch-when="vimeo" style="height: 100%; width: 100%;">
-		<iframe width="100%" height="100%" ng-src="{{getTrustedVideoUrl(video)}}" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
-	</div>
-	<div ng-switch-when="viddler" style="height: 100%; width: 100%;">
-		<iframe width="100%" height="100%" ng-src="{{getTrustedVideoUrl(video)}}" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
-	</div>
-	<div ng-switch-default>
-		Invalid Video
-	</div>
+<style>
+	.zen-video iframe {
+		height: 100%;
+		width: 100%;
+	}
+</style>
+<div style="height: 100%; width: 100%;">
+	<div id="{{video.service}}-{{video.id}}-{{video.uuid}}" class="zen-video" style="height: 100%; width: 100%;"></div>
 </div>

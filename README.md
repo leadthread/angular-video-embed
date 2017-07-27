@@ -21,8 +21,21 @@ Include the module in your main app
 angular.module('app', ['zen.video-embed']);
 ```
 
+You must include the video service's library script in order to use that service
+```html
+<!-- YOUTUBE -->
+<script src="https://www.youtube.com/iframe_api"></script>
+
+<!-- VIMEO -->
+<script src="https://player.vimeo.com/api/player.js"></script>
+
+<!-- VIDDLER -->
+<script src="https://static.cdn-ec.viddler.com/js/arpeggio/v3/build/main-built.js"></script>
+```
+
 ## Usage
-### Method 1 - Passing an object
+### Loading a video
+#### Method 1 - Passing an object
 ###### Javascript
 ```js
 $scope.video = {
@@ -36,7 +49,7 @@ $scope.video = {
 <div zen-video-embed video="video" style="width: 600px; height: 400px;"></div>
 ```
 
-### Method 2 - Passing a video URL
+#### Method 2 - Passing a video URL
 ###### Javascript
 ```js
 $scope.url = "https://www.youtube.com/watch?v=iNJdPyoqt8U";
@@ -45,6 +58,33 @@ $scope.url = "https://www.youtube.com/watch?v=iNJdPyoqt8U";
 ###### HTML
 ```html
 <div zen-video-embed url="{{url}}" style="width: 600px; height: 400px;"></div>
+```
+
+### Registering event callbacks
+###### Javascript
+```js
+$scope.url = "https://www.youtube.com/watch?v=iNJdPyoqt8U";
+$scope.onPlayed = function () {console.log("onPlayed fired");}
+$scope.onPaused = function () {console.log("onPaused fired");}
+$scope.onEnded = function () {console.log("onEnded fired");}
+$scope.onBuffering = function () {console.log("onBuffering fired");} // Only supported on Youtube
+$scope.onReady = function () {console.log("onReady fired");}
+```
+
+###### HTML
+```html
+<div zen-video-embed url="{{url}}" on-played="onPlayed" on-paused="onPaused" on-ended="onEnded" on-buffering="onBuffering" on-ready="onReady" style="width: 600px; height: 400px;"></div>
+```
+
+### Gaining access to the Player Library Instance
+###### Javascript
+```js
+// Each event callback receives a "Player Wrapper" instance which contains the underlying player library instance.
+$scope.onReady = function (player) {
+	if(player.video.service === "youtube") {
+		player.player.setVolume(0);
+	}
+}
 ```
 
 ## Contributing
