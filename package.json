@@ -4,12 +4,12 @@
   "description": "Can embed videos from different services easily. Vimeo, Youtube, ETC...",
   "main": "dist/angular-video-embed.tpl.js",
   "dependencies": {
-    "@types/lodash": "^4.14.71",
     "angular": "^1.5.8",
     "lodash": "^4.17.4"
   },
   "devDependencies": {
     "@types/angular": "^1.6.27",
+    "@types/lodash": "^4.14.71",
     "@types/node": "^8.0.17",
     "eslint": "^3.3.0",
     "html-loader": "^0.4.5",
