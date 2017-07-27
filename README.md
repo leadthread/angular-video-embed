@@ -11,9 +11,9 @@ Currently supported:
 
 ## Installation
 
-Install via [bower](https://bower.io/) - In the terminal:
+Install via [npm](https://npmjs.com/) - In the terminal:
 ```bash
-bower install zenapply/angular-video-embed --save
+npm install angular-video-embed --save
 ```
 
 Include the module in your main app
