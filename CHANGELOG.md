@@ -2,6 +2,12 @@
 
 All notable changes to `angular-video-embed` will be documented in this file.
 
+### 2.0.1
+- Fixed Readme and package.json
+
+### 2.0.0
+- Added video event callbacks to the directive
+
 ### 1.1.4
 - Check for undefined strings before running regex
 
