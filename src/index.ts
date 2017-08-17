@@ -31,7 +31,7 @@ class ZenVideoEmbedService {
 
 app.service("zenVideoEmbedService", ZenVideoEmbedService);
 
-app.directive("zenVideoEmbed", ["$sce", "ZenVideoEmbedService", "$q", "$timeout", "$rootScope", function ($sce: ng.ISCEService, ZenVideoEmbedService: ZenVideoEmbedService, $q: ng.IQService, $timeout: ng.ITimeoutService, $rootScope: ng.IRootScopeService) { 
+app.directive("zenVideoEmbed", ["$sce", "zenVideoEmbedService", "$q", "$timeout", "$rootScope", function ($sce: ng.ISCEService, zenVideoEmbedService: ZenVideoEmbedService, $q: ng.IQService, $timeout: ng.ITimeoutService, $rootScope: ng.IRootScopeService) { 
 	interface IZenVideoEmbedScope {
 		url: string;
 		video: Video;
@@ -84,7 +84,7 @@ app.directive("zenVideoEmbed", ["$sce", "ZenVideoEmbedService", "$q", "$timeout"
 
 			function buildVideoFromUrl (url: string): Video {
 				if (url) {
-					return ZenVideoEmbedService.getVideoFromUrl(url);
+					return zenVideoEmbedService.getVideoFromUrl(url);
 				} else {
 					return null;
 				}
