@@ -2,6 +2,9 @@
 
 All notable changes to `angular-video-embed` will be documented in this file.
 
+### 2.0.3
+- Fixed typo in service name
+
 ### 2.0.2
 - Fixed package.json main entry
 

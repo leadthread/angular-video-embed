@@ -29,7 +29,7 @@ class ZenVideoEmbedService {
 	};
 }
 
-app.service("ZenVideoEmbedService", ZenVideoEmbedService);
+app.service("zenVideoEmbedService", ZenVideoEmbedService);
 
 app.directive("zenVideoEmbed", ["$sce", "ZenVideoEmbedService", "$q", "$timeout", "$rootScope", function ($sce: ng.ISCEService, ZenVideoEmbedService: ZenVideoEmbedService, $q: ng.IQService, $timeout: ng.ITimeoutService, $rootScope: ng.IRootScopeService) { 
 	interface IZenVideoEmbedScope {

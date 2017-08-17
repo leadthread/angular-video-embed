@@ -95,7 +95,7 @@ exports.Video = Video;
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
-var _ = __webpack_require__(11);
+var _ = __webpack_require__(8);
 var Player = (function () {
     function Player(video) {
         var _this = this;
@@ -188,9 +188,9 @@ exports.Player = Player;
 Object.defineProperty(exports, "__esModule", { value: true });
 var VideoFactory_1 = __webpack_require__(3);
 var YouTubePlayer_1 = __webpack_require__(7);
-var ViddlerPlayer_1 = __webpack_require__(8);
-var VimeoPlayer_1 = __webpack_require__(9);
-var templateUrl = __webpack_require__(10);
+var ViddlerPlayer_1 = __webpack_require__(11);
+var VimeoPlayer_1 = __webpack_require__(12);
+var templateUrl = __webpack_require__(13);
 var app = angular.module("zen.video-embed", []);
 var ZenVideoEmbedService = (function () {
     function ZenVideoEmbedService() {
@@ -208,7 +208,7 @@ var ZenVideoEmbedService = (function () {
     ;
     return ZenVideoEmbedService;
 }());
-app.service("ZenVideoEmbedService", ZenVideoEmbedService);
+app.service("zenVideoEmbedService", ZenVideoEmbedService);
 app.directive("zenVideoEmbed", ["$sce", "ZenVideoEmbedService", "$q", "$timeout", "$rootScope", function ($sce, ZenVideoEmbedService, $q, $timeout, $rootScope) {
         return {
             restrict: "EA",
@@ -519,123 +519,6 @@ exports.YouTubePlayer = YouTubePlayer;
 
 /***/ }),
 /* 8 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-var __extends = (this && this.__extends) || (function () {
-    var extendStatics = Object.setPrototypeOf ||
-        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
-    return function (d, b) {
-        extendStatics(d, b);
-        function __() { this.constructor = d; }
-        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-    };
-})();
-Object.defineProperty(exports, "__esModule", { value: true });
-var Player_1 = __webpack_require__(1);
-var ViddlerPlayer = (function (_super) {
-    __extends(ViddlerPlayer, _super);
-    function ViddlerPlayer(video) {
-        var _this = _super.call(this, video) || this;
-        _this.video = video;
-        return _this;
-    }
-    ViddlerPlayer.prototype.isLibraryLoaded = function () {
-        return typeof ViddlerEmbed !== 'undefined';
-    };
-    ViddlerPlayer.prototype.getLibrary = function () {
-        return ViddlerEmbed;
-    };
-    ViddlerPlayer.prototype.bind = function ($q) {
-        var _this = this;
-        return this.onLibraryLoaded($q).then(function () {
-            var id = _this.video.id;
-            var lib = _this.getLibrary();
-            _this.player = new ViddlerEmbed({
-                videoId: id,
-                target: '#' + _this.video.toString(),
-                width: "100%",
-                height: "100%",
-            });
-            _this.player.manager.events.on('videoPlayer:play', _this.firePlayed);
-            _this.player.manager.events.on('videoPlayer:playerReady', _this.fireReady);
-            _this.player.manager.events.on('videoPlayer:pause', _this.firePaused);
-            _this.player.manager.events.on('videoPlayer:ended', _this.fireEnded);
-            return _this;
-        });
-    };
-    return ViddlerPlayer;
-}(Player_1.Player));
-exports.ViddlerPlayer = ViddlerPlayer;
-
-
-/***/ }),
-/* 9 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-var __extends = (this && this.__extends) || (function () {
-    var extendStatics = Object.setPrototypeOf ||
-        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
-    return function (d, b) {
-        extendStatics(d, b);
-        function __() { this.constructor = d; }
-        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-    };
-})();
-Object.defineProperty(exports, "__esModule", { value: true });
-var Player_1 = __webpack_require__(1);
-var VimeoPlayer = (function (_super) {
-    __extends(VimeoPlayer, _super);
-    function VimeoPlayer(video) {
-        var _this = _super.call(this, video) || this;
-        _this.video = video;
-        return _this;
-    }
-    VimeoPlayer.prototype.isLibraryLoaded = function () {
-        return typeof Vimeo !== 'undefined';
-    };
-    VimeoPlayer.prototype.getLibrary = function () {
-        return Vimeo;
-    };
-    VimeoPlayer.prototype.bind = function ($q) {
-        var _this = this;
-        return this.onLibraryLoaded($q).then(function () {
-            var id = _this.video.id;
-            var lib = _this.getLibrary();
-            _this.player = new lib.Player(_this.video.toString(), {
-                id: id,
-            });
-            _this.player.on('play', _this.firePlayed);
-            _this.player.on('loaded', _this.fireReady);
-            _this.player.on('pause', _this.firePaused);
-            _this.player.on('ended', _this.fireEnded);
-            return _this;
-        });
-    };
-    VimeoPlayer.prototype.onBuffering = function () {
-        console.warn("Buffering event listener is not supported for Vimeo");
-    };
-    return VimeoPlayer;
-}(Player_1.Player));
-exports.VimeoPlayer = VimeoPlayer;
-
-
-/***/ }),
-/* 10 */
-/***/ (function(module, exports) {
-
-var path = 'C:/Users/Tyler/code/leadthread/angular-video-embed/src/index.html';
-var html = "<style>\r\n\t.zen-video iframe {\r\n\t\theight: 100%;\r\n\t\twidth: 100%;\r\n\t}\r\n</style>\r\n<div style=\"height: 100%; width: 100%;\">\r\n\t<div id=\"{{video.service}}-{{video.id}}-{{video.uuid}}\" class=\"zen-video\" style=\"height: 100%; width: 100%;\"></div>\r\n</div>";
-window.angular.module('ng').run(['$templateCache', function(c) { c.put(path, html) }]);
-module.exports = path;
-
-/***/ }),
-/* 11 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(global, module) {var __WEBPACK_AMD_DEFINE_RESULT__;/**
@@ -17724,10 +17607,10 @@ module.exports = path;
   }
 }.call(this));
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(12), __webpack_require__(13)(module)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(9), __webpack_require__(10)(module)))
 
 /***/ }),
-/* 12 */
+/* 9 */
 /***/ (function(module, exports) {
 
 var g;
@@ -17754,7 +17637,7 @@ module.exports = g;
 
 
 /***/ }),
-/* 13 */
+/* 10 */
 /***/ (function(module, exports) {
 
 module.exports = function(module) {
@@ -17780,6 +17663,123 @@ module.exports = function(module) {
 	return module;
 };
 
+
+/***/ }),
+/* 11 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var __extends = (this && this.__extends) || (function () {
+    var extendStatics = Object.setPrototypeOf ||
+        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+    return function (d, b) {
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
+Object.defineProperty(exports, "__esModule", { value: true });
+var Player_1 = __webpack_require__(1);
+var ViddlerPlayer = (function (_super) {
+    __extends(ViddlerPlayer, _super);
+    function ViddlerPlayer(video) {
+        var _this = _super.call(this, video) || this;
+        _this.video = video;
+        return _this;
+    }
+    ViddlerPlayer.prototype.isLibraryLoaded = function () {
+        return typeof ViddlerEmbed !== 'undefined';
+    };
+    ViddlerPlayer.prototype.getLibrary = function () {
+        return ViddlerEmbed;
+    };
+    ViddlerPlayer.prototype.bind = function ($q) {
+        var _this = this;
+        return this.onLibraryLoaded($q).then(function () {
+            var id = _this.video.id;
+            var lib = _this.getLibrary();
+            _this.player = new ViddlerEmbed({
+                videoId: id,
+                target: '#' + _this.video.toString(),
+                width: "100%",
+                height: "100%",
+            });
+            _this.player.manager.events.on('videoPlayer:play', _this.firePlayed);
+            _this.player.manager.events.on('videoPlayer:playerReady', _this.fireReady);
+            _this.player.manager.events.on('videoPlayer:pause', _this.firePaused);
+            _this.player.manager.events.on('videoPlayer:ended', _this.fireEnded);
+            return _this;
+        });
+    };
+    return ViddlerPlayer;
+}(Player_1.Player));
+exports.ViddlerPlayer = ViddlerPlayer;
+
+
+/***/ }),
+/* 12 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var __extends = (this && this.__extends) || (function () {
+    var extendStatics = Object.setPrototypeOf ||
+        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+    return function (d, b) {
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
+Object.defineProperty(exports, "__esModule", { value: true });
+var Player_1 = __webpack_require__(1);
+var VimeoPlayer = (function (_super) {
+    __extends(VimeoPlayer, _super);
+    function VimeoPlayer(video) {
+        var _this = _super.call(this, video) || this;
+        _this.video = video;
+        return _this;
+    }
+    VimeoPlayer.prototype.isLibraryLoaded = function () {
+        return typeof Vimeo !== 'undefined';
+    };
+    VimeoPlayer.prototype.getLibrary = function () {
+        return Vimeo;
+    };
+    VimeoPlayer.prototype.bind = function ($q) {
+        var _this = this;
+        return this.onLibraryLoaded($q).then(function () {
+            var id = _this.video.id;
+            var lib = _this.getLibrary();
+            _this.player = new lib.Player(_this.video.toString(), {
+                id: id,
+            });
+            _this.player.on('play', _this.firePlayed);
+            _this.player.on('loaded', _this.fireReady);
+            _this.player.on('pause', _this.firePaused);
+            _this.player.on('ended', _this.fireEnded);
+            return _this;
+        });
+    };
+    VimeoPlayer.prototype.onBuffering = function () {
+        console.warn("Buffering event listener is not supported for Vimeo");
+    };
+    return VimeoPlayer;
+}(Player_1.Player));
+exports.VimeoPlayer = VimeoPlayer;
+
+
+/***/ }),
+/* 13 */
+/***/ (function(module, exports) {
+
+var path = 'C:/Users/Tyler/code/leadthread/angular-video-embed/src/index.html';
+var html = "<style>\r\n\t.zen-video iframe {\r\n\t\theight: 100%;\r\n\t\twidth: 100%;\r\n\t}\r\n</style>\r\n<div style=\"height: 100%; width: 100%;\">\r\n\t<div id=\"{{video.service}}-{{video.id}}-{{video.uuid}}\" class=\"zen-video\" style=\"height: 100%; width: 100%;\"></div>\r\n</div>";
+window.angular.module('ng').run(['$templateCache', function(c) { c.put(path, html) }]);
+module.exports = path;
 
 /***/ })
 /******/ ]);
