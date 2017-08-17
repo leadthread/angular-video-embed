@@ -1,6 +1,6 @@
 {
   "name": "angular-video-embed",
-  "version": "2.0.4",
+  "version": "2.0.5",
   "description": "Can embed videos from different services easily. Vimeo, Youtube, ETC...",
   "main": "dist/angular-video-embed.js",
   "dependencies": {

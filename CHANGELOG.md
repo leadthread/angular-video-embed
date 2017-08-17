@@ -2,6 +2,9 @@
 
 All notable changes to `angular-video-embed` will be documented in this file.
 
+### 2.0.5
+- Forgot to compile the typescript...
+
 ### 2.0.4
 - Fixed typo in service name
 

@@ -209,7 +209,7 @@ var ZenVideoEmbedService = (function () {
     return ZenVideoEmbedService;
 }());
 app.service("zenVideoEmbedService", ZenVideoEmbedService);
-app.directive("zenVideoEmbed", ["$sce", "ZenVideoEmbedService", "$q", "$timeout", "$rootScope", function ($sce, ZenVideoEmbedService, $q, $timeout, $rootScope) {
+app.directive("zenVideoEmbed", ["$sce", "zenVideoEmbedService", "$q", "$timeout", "$rootScope", function ($sce, zenVideoEmbedService, $q, $timeout, $rootScope) {
         return {
             restrict: "EA",
             templateUrl: templateUrl,
@@ -246,7 +246,7 @@ app.directive("zenVideoEmbed", ["$sce", "ZenVideoEmbedService", "$q", "$timeout"
                 }
                 function buildVideoFromUrl(url) {
                     if (url) {
-                        return ZenVideoEmbedService.getVideoFromUrl(url);
+                        return zenVideoEmbedService.getVideoFromUrl(url);
                     }
                     else {
                         return null;
